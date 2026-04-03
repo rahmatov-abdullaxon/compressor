@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "compressor"
+version = "0.1.0"
+description = "LZ77 vs DEFLATE"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["compression", "lz77", "deflate", "huffman", "text"]
+authors = [
+  { name = "Abdullakhon Rahmatov" }
+]
+
+maintainers = [
+  { name = "Abdullakhon Rahmatov", email = "rahmatov.abdullaxon@gmail.com" }
+]
+
+[project.scripts]
+compress = "compressor.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/rahmatov-abdullaxon/compressor"
+
+[tool.setuptools]
+packages = ["compressor"]
