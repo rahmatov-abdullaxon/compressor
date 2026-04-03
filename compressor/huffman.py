@@ -1,6 +1,7 @@
 import heapq
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True, slots=True)
 class Huffman:
     bits: int

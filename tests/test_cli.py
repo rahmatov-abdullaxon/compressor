@@ -1,8 +1,8 @@
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -13,12 +13,22 @@ class CLITests(unittest.TestCase):
             source = temp_path / "sample.txt"
             restored = temp_path / "restored.txt"
             source.write_text("CLI smoke test. Пример текста. " * 25, encoding="utf-8")
-
             subprocess.run( [sys.executable, "-m", "compressor", "compress", "lz77", str(source)], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
-
             compressed = temp_path / "sample.txt.lz77"
             self.assertTrue(compressed.exists())
             subprocess.run( [ sys.executable, "-m", "compressor", "decompress", "lz77", str(compressed), "--output", str(restored)], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
+            self.assertEqual(restored.read_bytes(), source.read_bytes())
+
+    def test_lz77_cli_binary_roundtrip(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            source = temp_path / "sample.bin"
+            restored = temp_path / "restored.bin"
+            source.write_bytes(bytes(range(256)) * 8)
+            subprocess.run([sys.executable, "-m", "compressor", "compress", "lz77", str(source)], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
+            compressed = temp_path / "sample.bin.lz77"
+            self.assertTrue(compressed.exists())
+            subprocess.run([sys.executable, "-m", "compressor", "decompress", "lz77", str(compressed), "--output", str(restored) ], cwd=REPO_ROOT, capture_output=True, text=True, check=True,)
             self.assertEqual(restored.read_bytes(), source.read_bytes())
 
     def test_benchmark_cli_csv_export(self):

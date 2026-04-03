@@ -1,8 +1,9 @@
 """LZ77 compression and decompression."""
 
 from collections import defaultdict, deque
-from compressor.models import LZ77Archive, LZ77Config, LiteralToken, MatchToken
-from compressor.integers import encode, decode 
+
+from compressor.integers import decode, encode
+from compressor.models import LiteralToken, LZ77Archive, LZ77Config, MatchToken
 
 MAGIC = b"LZ77"
 VERSION = 1

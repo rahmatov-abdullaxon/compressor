@@ -1,5 +1,7 @@
+import tempfile
 import unittest
-from compressor import lz77, sdeflate
+from pathlib import Path
+from compressor import benchmark, lz77, sdeflate
 from compressor.models import LZ77Config
 
 
@@ -36,6 +38,14 @@ class RoundTripTests(unittest.TestCase):
         self.assertEqual(lz77.decompress(compressed_lz77), sample)
         self.assertEqual(sdeflate.decompress(compressed_sdeflate), sample)
 
+    def test_benchmark_single_binary_file(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            source = temp_path / "sample.bin"
+            source.write_bytes(bytes(range(256)) * 16)
+            results = benchmark.benchmark_paths(source, algorithm="all", repeat=1)
+            self.assertEqual(len(results), 2)
+            self.assertTrue(all(result.correct for result in results))
 
 if __name__ == "__main__":
     unittest.main()

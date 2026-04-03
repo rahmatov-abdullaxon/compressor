@@ -1,9 +1,10 @@
 from collections import Counter
+
 from compressor import lz77
 from compressor.bits import Reader, Writer
 from compressor.huffman import Book
-from compressor.models import LZ77Config, LiteralToken
 from compressor.integers import decode, encode
+from compressor.models import LiteralToken, LZ77Config
 
 MAGIC = b"SDFL"
 VERSION = 1

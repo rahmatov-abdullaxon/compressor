@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+
 from compressor import benchmark, lz77, sdeflate
 from compressor.models import LZ77Config
 
@@ -21,8 +22,8 @@ def build_parser():
     decompress_parser.add_argument("-o", "--output", type=Path, help="Output file path.")
     decompress_parser.set_defaults(handler=_handle_decompress)
 
-    benchmark_parser = subparsers.add_parser( "benchmark", help="Benchmark one text file or all .txt files in a directory.",)
-    benchmark_parser.add_argument("target", type=Path, help="Input .txt file or directory.")
+    benchmark_parser = subparsers.add_parser( "benchmark", help="Benchmark one file or all files in a directory.",)
+    benchmark_parser.add_argument("target", type=Path, help="Input file or directory.")
     benchmark_parser.add_argument( "--algorithm", choices=("all", "lz77", "sdeflate", "deflate"), default="all", help="Which algorithm(s) to benchmark.",)
     benchmark_parser.add_argument( "--repeat", type=int, default=3, help="Number of repetitions used for compression and decompression timings.",)
     benchmark_parser.add_argument("--csv", type=Path, help="Optional CSV export path.")
