@@ -249,7 +249,3 @@ The tests cover:
 - `sdeflate` is not RFC-compliant DEFLATE
 - the custom output formats are specific to this project
 - this is an educational project, not a production compression library
-
-## License
-
-MIT
